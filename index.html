@@ -396,24 +396,25 @@ function activateSlide(i){
   activationToken++;
   const myToken = activationToken;
 
-  // Video yüklenip oynamaya başladığında sesi otomatik aç. Oynatıcının tam
-  // olarak ne zaman komutları dinlemeye hazır olacağı garanti olmadığından
-  // komutu birkaç kez artan gecikmelerle gönderiyoruz; "unMute" komutu zaten
-  // sesi açık duruma getirdiği için birden fazla gönderilmesi zararsız.
-  [250, 500, 900, 1400].forEach(delay=>{
-    setTimeout(()=>{
-      if(myToken !== activationToken) return;
-      ytCommand(iframe, 'unMute');
-      ytCommand(iframe, 'playVideo');
-    }, delay);
-  });
-
-  // Arayüzdeki buton metnini/ikonunu de bir kez "Sesi Kapat" durumuna
-  // güncelle (kullanıcı isterse tekrar tıklayıp sessize alabilir).
+  // Video yüklenip oynamaya başladığında sesi KOD üzerinden (dokunma
+  // simülasyonu olmadan) bir kez aç. "playVideo" komutu KASITLI olarak
+  // gönderilmiyor: autoplay zaten src üzerinden (autoplay=1) native olarak
+  // tetikleniyor; "playVideo" komutunu ayrıca göndermek bazı tarayıcılarda
+  // (özellikle hızlı art arda kaydırmalarda) oynatmayı kesintiye uğratıp
+  // videonun hiç başlamamasına yol açıyordu — bu yüzden sadece "unMute"
+  // gönderiyoruz, oynatmaya karışmıyoruz.
   setTimeout(()=>{
     if(myToken !== activationToken) return;
+    ytCommand(iframe, 'unMute');
     if(btn){ btn.dataset.muted='0'; btn.textContent='🔇 Sesi Kapat'; btn.classList.remove('pulse-attn'); }
-  }, 350);
+  }, 600);
+
+  // Oynatıcı ilk denemede komutu kaçırmış olabilir diye sessiz bir yedek
+  // deneme (arayüzü tekrar değiştirmiyor, sadece komutu tekrar gönderiyor).
+  setTimeout(()=>{
+    if(myToken !== activationToken) return;
+    ytCommand(iframe, 'unMute');
+  }, 1500);
 }
 function deactivateSlide(i){
   const iframe = slideIframe(i);
