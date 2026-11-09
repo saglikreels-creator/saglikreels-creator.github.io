@@ -378,8 +378,6 @@ function ytCommand(iframe, func){
 function slideEl(i){ return feedEl.querySelectorAll('.slide')[i]; }
 function slideIframe(i){ const s = slideEl(i); return s ? s.querySelector('iframe') : null; }
 
-let activationToken = 0;
-
 function activateSlide(i){
   const iframe = slideIframe(i);
   if(!iframe) return;
@@ -387,18 +385,6 @@ function activateSlide(i){
   iframe.src = 'https://www.youtube.com/embed/'+id+'?autoplay=1&mute=1&playsinline=1&rel=0&modestbranding=1&enablejsapi=1';
   const btn = iframe.closest('.slide').querySelector('.sound-btn');
   if(btn){ btn.dataset.muted='1'; btn.textContent='🔊 Sesi Aç'; btn.classList.add('pulse-attn'); }
-
-  // Video oynamaya başlar başlamaz "Sesi Aç" butonunu otomatik olarak
-  // bir kez tetikle. Kısa bir gecikme ile oynatıcının yüklenip autoplay'in
-  // (sessiz) başlamasına izin veriyoruz, sonra API üzerinden sesi açıyoruz.
-  // activationToken ile kullanıcı hızlıca başka bir slide'a geçerse eski
-  // zamanlayıcının yanlış slide'ı etkilemesi engelleniyor.
-  activationToken++;
-  const myToken = activationToken;
-  setTimeout(()=>{
-    if(myToken !== activationToken) return;
-    if(btn && btn.dataset.muted==='1') toggleMute(btn);
-  }, 900);
 }
 function deactivateSlide(i){
   const iframe = slideIframe(i);
