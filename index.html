@@ -384,21 +384,36 @@ function activateSlide(i){
   const iframe = slideIframe(i);
   if(!iframe) return;
   const id = iframe.dataset.yt;
-  iframe.src = 'https://www.youtube.com/embed/'+id+'?autoplay=1&mute=1&playsinline=1&rel=0&modestbranding=1&enablejsapi=1';
+  // "origin" parametresi YouTube'un postMessage komutlarını (unMute,
+  // playVideo vb.) kabul etmesi için gerekli; eksik olunca oynatıcı
+  // komutları sessizce yok sayabiliyordu — sesin açılmamasının asıl
+  // sebebi buydu.
+  const origin = encodeURIComponent(location.origin);
+  iframe.src = 'https://www.youtube.com/embed/'+id+'?autoplay=1&mute=1&playsinline=1&rel=0&modestbranding=1&enablejsapi=1&origin='+origin;
   const btn = iframe.closest('.slide').querySelector('.sound-btn');
   if(btn){ btn.dataset.muted='1'; btn.textContent='🔊 Sesi Aç'; btn.classList.add('pulse-attn'); }
 
-  // Video oynamaya başlar başlamaz "Sesi Aç" butonunu otomatik olarak
-  // bir kez tetikle. Kısa bir gecikme ile oynatıcının yüklenip autoplay'in
-  // (sessiz) başlamasına izin veriyoruz, sonra API üzerinden sesi açıyoruz.
-  // activationToken ile kullanıcı hızlıca başka bir slide'a geçerse eski
-  // zamanlayıcının yanlış slide'ı etkilemesi engelleniyor.
   activationToken++;
   const myToken = activationToken;
+
+  // Video yüklenip oynamaya başladığında sesi otomatik aç. Oynatıcının tam
+  // olarak ne zaman komutları dinlemeye hazır olacağı garanti olmadığından
+  // komutu birkaç kez artan gecikmelerle gönderiyoruz; "unMute" komutu zaten
+  // sesi açık duruma getirdiği için birden fazla gönderilmesi zararsız.
+  [250, 500, 900, 1400].forEach(delay=>{
+    setTimeout(()=>{
+      if(myToken !== activationToken) return;
+      ytCommand(iframe, 'unMute');
+      ytCommand(iframe, 'playVideo');
+    }, delay);
+  });
+
+  // Arayüzdeki buton metnini/ikonunu de bir kez "Sesi Kapat" durumuna
+  // güncelle (kullanıcı isterse tekrar tıklayıp sessize alabilir).
   setTimeout(()=>{
     if(myToken !== activationToken) return;
-    if(btn && btn.dataset.muted==='1') toggleMute(btn);
-  }, 900);
+    if(btn){ btn.dataset.muted='0'; btn.textContent='🔇 Sesi Kapat'; btn.classList.remove('pulse-attn'); }
+  }, 350);
 }
 function deactivateSlide(i){
   const iframe = slideIframe(i);
