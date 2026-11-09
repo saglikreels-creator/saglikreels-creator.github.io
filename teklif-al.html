@@ -1,0 +1,151 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Teklif Al — saglikreels</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  /* Layout concept: a single-screen "slate" card — one clear cut from
+     invitation to action, the CTA framed like a clapperboard strike. */
+  :root{
+    --bg:#F3F6F4; --surface:#FFFFFF; --surface-2:#EBF1EE;
+    --ink:#10201B; --muted:#5B6D66; --border:#D7E1DC;
+    --brand:#0E6B59; --brand-ink:#063D32;
+    --accent:#E24A30;
+    --font-display:'Fraunces',Georgia,'Times New Roman',serif;
+    --font-body:'Work Sans',system-ui,-apple-system,sans-serif;
+    --font-mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0B1513; --surface:#101D19; --surface-2:#16251F;
+      --ink:#ECF4F0; --muted:#8FA59D; --border:#213832;
+      --brand:#33C9A6; --brand-ink:#9FEFDB;
+      --accent:#FF6A48;
+      color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0B1513; --surface:#101D19; --surface-2:#16251F;
+    --ink:#ECF4F0; --muted:#8FA59D; --border:#213832;
+    --brand:#33C9A6; --brand-ink:#9FEFDB;
+    --accent:#FF6A48;
+    color-scheme:dark;
+  }
+
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:var(--font-body); font-size:15px; line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    display:flex; flex-direction:column; align-items:center;
+    padding-inline:20px; padding-block:32px 40px;
+  }
+
+  .site-nav{display:flex; gap:8px; margin:0 0 24px; flex-wrap:wrap; width:100%; max-width:480px; justify-content:center}
+  .site-nav a{
+    font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase;
+    padding:7px 13px; border-radius:999px; border:1px solid var(--border); color:var(--muted);
+    text-decoration:none; background:var(--surface);
+  }
+  .site-nav a:hover{border-color:var(--brand); color:var(--brand-ink)}
+  .site-nav a.active{background:var(--brand); border-color:var(--brand); color:#fff}
+
+  .card{
+    width:100%; max-width:480px; background:var(--surface); margin:auto 0;
+    border:1px solid var(--border); border-radius:18px; padding:32px 28px;
+  }
+
+  .top{display:flex; align-items:center; gap:10px; margin-bottom:18px}
+  .dot{
+    width:9px; height:9px; border-radius:50%; background:var(--accent); flex:none;
+    box-shadow:0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent);
+  }
+  .eyebrow{
+    font-family:var(--font-mono); font-size:11px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--muted);
+  }
+
+  h1{
+    font-family:var(--font-display); font-weight:600; font-style:italic;
+    font-size:clamp(24px,6vw,30px); line-height:1.15; margin:0 0 10px;
+    text-wrap:balance;
+  }
+  p.lede{color:var(--muted); margin:0 0 24px; font-size:14.5px}
+
+  .steps{
+    display:grid; gap:12px; margin-bottom:26px; padding:16px;
+    background:var(--surface-2); border-radius:12px;
+  }
+  .steps .row{display:flex; gap:10px; align-items:flex-start; font-size:13.5px}
+  .steps .n{
+    font-family:var(--font-mono); font-size:11px; color:var(--brand-ink);
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:999px; width:20px; height:20px; flex:none;
+    display:inline-flex; align-items:center; justify-content:center;
+  }
+  .steps .row b{font-weight:600}
+  .steps .row span{color:var(--muted)}
+
+  a.cta{
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    font-family:var(--font-body); font-weight:600; font-size:15px;
+    background:var(--accent); color:#fff; text-decoration:none;
+    border-radius:11px; padding:15px 18px; width:100%;
+  }
+  a.cta:hover{filter:brightness(1.06)}
+  .cta-note{
+    text-align:center; font-size:12px; color:var(--muted); margin-top:10px;
+  }
+
+  .foot{
+    margin-top:24px; padding-top:18px; border-top:1px solid var(--border);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+    font-size:12.5px; color:var(--muted);
+  }
+  .foot b{color:var(--ink); font-weight:600}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="index.html">Portfolyo</a>
+  <a href="hedef-liste.html">Hedef Liste</a>
+  <a href="teklif-al.html" class="active">Teklif Al</a>
+</nav>
+
+<div class="card">
+  <div class="top">
+    <span class="dot" aria-hidden="true"></span>
+    <span class="eyebrow">saglikreels</span>
+  </div>
+
+  <h1>Size özel içerik teklifi almak ister misiniz?</h1>
+  <p class="lede">Birkaç soruyu yanıtlayın, biz inceleyip size uygun kapsam ve fiyat teklifiyle dönüş yapalım.</p>
+
+  <div class="steps">
+    <div class="row"><span class="n">1</span><span><b>Formu doldurun</b> — alanınız, istediğiniz video sayısı ve edit türü gibi birkaç kısa soru.</span></div>
+    <div class="row"><span class="n">2</span><span><b>Biz inceleriz</b> — cevaplarınıza göre kapsamı ve fiyatı netleştiririz.</span></div>
+    <div class="row"><span class="n">3</span><span><b>Dönüş yaparız</b> — Instagram veya e-posta üzerinden, genellikle 24 saat içinde.</span></div>
+  </div>
+
+  <a class="cta" href="https://docs.google.com/forms/d/e/1FAIpQLSfC0AOtegpbsUJCt8-gqHeMpfqqVmEzqC05PvLRY3rsIR9tnw/viewform" target="_blank" rel="noopener">
+    Teklif Formunu Doldur ↗
+  </a>
+  <p class="cta-note">2 dakikanızı alır · yeni sekmede açılır</p>
+
+  <div class="foot">
+    <span>Instagram: <b>@saglikreels</b></span>
+    <span>E-posta: <b>saglikreels@gmail.com</b></span>
+  </div>
+</div>
+
+</body>
+</html>
+
+</body></html>
