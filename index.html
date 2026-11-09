@@ -384,37 +384,21 @@ function activateSlide(i){
   const iframe = slideIframe(i);
   if(!iframe) return;
   const id = iframe.dataset.yt;
-  // "origin" parametresi YouTube'un postMessage komutlarını (unMute,
-  // playVideo vb.) kabul etmesi için gerekli; eksik olunca oynatıcı
-  // komutları sessizce yok sayabiliyordu — sesin açılmamasının asıl
-  // sebebi buydu.
-  const origin = encodeURIComponent(location.origin);
-  iframe.src = 'https://www.youtube.com/embed/'+id+'?autoplay=1&mute=1&playsinline=1&rel=0&modestbranding=1&enablejsapi=1&origin='+origin;
+  iframe.src = 'https://www.youtube.com/embed/'+id+'?autoplay=1&mute=1&playsinline=1&rel=0&modestbranding=1&enablejsapi=1';
   const btn = iframe.closest('.slide').querySelector('.sound-btn');
   if(btn){ btn.dataset.muted='1'; btn.textContent='🔊 Sesi Aç'; btn.classList.add('pulse-attn'); }
 
+  // Video oynamaya başlar başlamaz "Sesi Aç" butonunu otomatik olarak
+  // bir kez tetikle. Kısa bir gecikme ile oynatıcının yüklenip autoplay'in
+  // (sessiz) başlamasına izin veriyoruz, sonra API üzerinden sesi açıyoruz.
+  // activationToken ile kullanıcı hızlıca başka bir slide'a geçerse eski
+  // zamanlayıcının yanlış slide'ı etkilemesi engelleniyor.
   activationToken++;
   const myToken = activationToken;
-
-  // Video yüklenip oynamaya başladığında sesi KOD üzerinden (dokunma
-  // simülasyonu olmadan) bir kez aç. "playVideo" komutu KASITLI olarak
-  // gönderilmiyor: autoplay zaten src üzerinden (autoplay=1) native olarak
-  // tetikleniyor; "playVideo" komutunu ayrıca göndermek bazı tarayıcılarda
-  // (özellikle hızlı art arda kaydırmalarda) oynatmayı kesintiye uğratıp
-  // videonun hiç başlamamasına yol açıyordu — bu yüzden sadece "unMute"
-  // gönderiyoruz, oynatmaya karışmıyoruz.
   setTimeout(()=>{
     if(myToken !== activationToken) return;
-    ytCommand(iframe, 'unMute');
-    if(btn){ btn.dataset.muted='0'; btn.textContent='🔇 Sesi Kapat'; btn.classList.remove('pulse-attn'); }
-  }, 600);
-
-  // Oynatıcı ilk denemede komutu kaçırmış olabilir diye sessiz bir yedek
-  // deneme (arayüzü tekrar değiştirmiyor, sadece komutu tekrar gönderiyor).
-  setTimeout(()=>{
-    if(myToken !== activationToken) return;
-    ytCommand(iframe, 'unMute');
-  }, 1500);
+    if(btn && btn.dataset.muted==='1') toggleMute(btn);
+  }, 900);
 }
 function deactivateSlide(i){
   const iframe = slideIframe(i);
