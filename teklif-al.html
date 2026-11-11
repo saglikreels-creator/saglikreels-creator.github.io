@@ -7,34 +7,19 @@
 <title>Teklif Al — saglikreels</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap">
 <style>
-  /* Layout concept: a single-screen "slate" card — one clear cut from
-     invitation to action, the CTA framed like a clapperboard strike. */
+  /* Ana sayfa (index.html) ile aynı palet ve tipografi: beyaz zemin,
+     mavi-camgöbeği accent, Space Grotesk + Inter. */
   :root{
-    --bg:#F3F6F4; --surface:#FFFFFF; --surface-2:#EBF1EE;
-    --ink:#10201B; --muted:#5B6D66; --border:#D7E1DC;
-    --brand:#0E6B59; --brand-ink:#063D32;
-    --accent:#E24A30;
-    --font-display:'Fraunces',Georgia,'Times New Roman',serif;
-    --font-body:'Work Sans',system-ui,-apple-system,sans-serif;
-    --font-mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
-  }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      --bg:#0B1513; --surface:#101D19; --surface-2:#16251F;
-      --ink:#ECF4F0; --muted:#8FA59D; --border:#213832;
-      --brand:#33C9A6; --brand-ink:#9FEFDB;
-      --accent:#FF6A48;
-      color-scheme:dark;
-    }
-  }
-  :root[data-theme="dark"]{
-    --bg:#0B1513; --surface:#101D19; --surface-2:#16251F;
-    --ink:#ECF4F0; --muted:#8FA59D; --border:#213832;
-    --brand:#33C9A6; --brand-ink:#9FEFDB;
-    --accent:#FF6A48;
-    color-scheme:dark;
+    color-scheme:light;
+    --bg:#F7F9FB; --surface:#FFFFFF; --surface-2:#F7F9FB;
+    --ink:#0B0B0C; --muted:#9A9CA0; --border:#E7E9EC;
+    --brand:#8EE3FF; --brand-ink:#1690C9;
+    --accent:#1690C9; --accent-soft:rgba(22,144,201,.12);
+    --font-display:'Space Grotesk',system-ui,-apple-system,sans-serif;
+    --font-body:'Inter',system-ui,-apple-system,sans-serif;
+    --font-mono:'Space Grotesk',system-ui,-apple-system,sans-serif;
   }
 
   *{box-sizing:border-box}
@@ -54,7 +39,7 @@
     text-decoration:none; background:var(--surface);
   }
   .site-nav a:hover{border-color:var(--brand); color:var(--brand-ink)}
-  .site-nav a.active{background:var(--brand); border-color:var(--brand); color:#fff}
+  .site-nav a.active{background:var(--accent-soft); border-color:var(--accent); color:var(--brand-ink)}
 
   .card{
     width:100%; max-width:480px; background:var(--surface); margin:auto 0;
@@ -72,9 +57,9 @@
   }
 
   h1{
-    font-family:var(--font-display); font-weight:600; font-style:italic;
+    font-family:var(--font-display); font-weight:600;
     font-size:clamp(24px,6vw,30px); line-height:1.15; margin:0 0 10px;
-    text-wrap:balance;
+    letter-spacing:.01em; text-wrap:balance;
   }
   p.lede{color:var(--muted); margin:0 0 24px; font-size:14.5px}
 
@@ -97,6 +82,7 @@
     font-family:var(--font-body); font-weight:600; font-size:15px;
     background:var(--accent); color:#fff; text-decoration:none;
     border-radius:11px; padding:15px 18px; width:100%;
+    box-shadow:0 10px 26px -10px rgba(22,144,201,.45);
   }
   a.cta:hover{filter:brightness(1.06)}
   .cta-note{
